@@ -1,31 +1,32 @@
 const Alexa = require('alexa-sdk');
 const unirest = require('unirest');
-let speechOutput = '';
-let reprompt;
-let welcomeOutput = "Welcome to info trafic : metro, R. , tram";
-let welcomeReprompt = "sample re-prompt text";
+
+let welcomeOutput = `
+Bonjour et bienvenue dans l'application InfoTrafic. 
+Voulez-vous connaître les perturbations en cours et à venir en temps réel ?
+Il suffit de me demander l'état du trafic !`;
+let reprompt = "Voulez-vous l'état du trafic de quelles lignes ?";
+let helpOutput = `
+Pour connaître des informations sur le trafic de l'R.E.R A et B, toutes les lignes du métro, ainsi que toutes les lignes du tramway ?
+Demandez-moi par exemple : "C'est quoi l'état du trafic du Métro 1 ?".
+`;
+let cancelOutput = `ça roule, je reste, néanmoins à votre écoute`;
+let unhandledOutput = `Je ne suis pas sûr d'avoir compris votre demande !
+Mais j'aprends vite ! 
+En attendant, Pouvez-vous me reposer la question autrement ?`;
 
 const handlers = {
     'LaunchRequest': function () {
-        this.emit(':ask', welcomeOutput, welcomeReprompt);
+        this.emit(':ask', welcomeOutput, reprompt);
     },
     'AMAZON.HelpIntent': function () {
-        speechOutput = 'Placeholder response for AMAZON.HelpIntent.';
-        reprompt = '';
-        this.emit(':ask', speechOutput, reprompt);
+        this.emit(':ask', helpOutput, reprompt);
     },
     'AMAZON.CancelIntent': function () {
-        speechOutput = 'Placeholder response for AMAZON.CancelIntent';
-        this.emit(':tell', speechOutput);
+        this.emit(':tell', cancelOutput);
     },
     'AMAZON.StopIntent': function () {
-        speechOutput = 'Placeholder response for AMAZON.StopIntent.';
-        this.emit(':tell', speechOutput);
-    },
-    'SessionEndedRequest': function () {
-        speechOutput = 'Session ended with reason: ' + this.event.request.reason;
-        //this.emit(':saveState', true);//uncomment to save attributes to db on session end
-        this.emit(':tell', speechOutput);
+        this.emit(':tell', cancelOutput);
     },
     'getTraficInfo': function () {
         console.log(JSON.stringify(this.event.request.intent.slots));
@@ -38,35 +39,28 @@ const handlers = {
             .get('https://www.ratp.fr/meteo/ajax/data')
             .end( (response) => {
                 let body = response.body
-                let transportInfo = {};
+                let transportInfo = {
+                    message : unhandledOutput,
+                    unavailable : body.unavailable
+                };
 
                 console.log(body);
                 
-                if (body.unavailable) {
-                    
-                }
-                
                 if (metroLine) {
-                    transportInfo = body.status.metro.lines[metroLine];
-                    
+                    transportInfo = body.status.metro.lines[metroLine.toLowerCase()];
                 } else if (rerLine) {
                     transportInfo = body.status.rer.lines[rerLine.toUpperCase()];
-                    
                 } else if (tramLine) {
                     transportInfo = body.status.tram.lines[tramLine.toUpperCase()];
-
                 }
 
                 let speechOutput = getSpeechOutFromTransportInfo(transportInfo);
                 this.emit(":tell", speechOutput);
 
             });
-
-
     },
     'Unhandled': function () {
-        speechOutput = "The skill didn't quite understand what you wanted.  Do you want to try something else?";
-        this.emit(':ask', speechOutput, speechOutput);
+        this.emit(':ask', unhandledOutput, helpOutput);
     }
 };
 

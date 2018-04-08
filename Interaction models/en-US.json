@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "infotrafic",
+            "invocationName": "info traffic",
             "intents": [
                 {
                     "name": "AMAZON.CancelIntent",
@@ -19,23 +19,22 @@
                     "name": "getTraficInfo",
                     "slots": [
                         {
-                            "name": "rerLine",
-                            "type": "rerLine"
-                        },
-                        {
                             "name": "metroLine",
                             "type": "metroLine"
                         },
                         {
                             "name": "tramLine",
                             "type": "tramLine"
+                        },
+                        {
+                            "name": "rerLine",
+                            "type": "rerLine"
                         }
                     ],
                     "samples": [
-                        "current traffic",
-                        "Current traffic for {metroLine}",
-                        "Current traffic for {rerLine}",
-                        "Current traffic for {tramLine}"
+                        "current traffic for RER {rerLine}",
+                        "current traffic for tram {tramLine}",
+                        "current traffic for metro {metroLine}"
                     ]
                 }
             ],
@@ -126,21 +125,6 @@
                     ]
                 },
                 {
-                    "name": "rerLine",
-                    "values": [
-                        {
-                            "name": {
-                                "value": "B"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "A"
-                            }
-                        }
-                    ]
-                },
-                {
                     "name": "tramLine",
                     "values": [
                         {
@@ -181,6 +165,21 @@
                         {
                             "name": {
                                 "value": "T1"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "rerLine",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "b"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "a"
                             }
                         }
                     ]
