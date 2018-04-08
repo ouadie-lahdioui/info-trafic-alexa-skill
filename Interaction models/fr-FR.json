@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "info traffic",
+            "invocationName": "info trafic",
             "intents": [
                 {
                     "name": "AMAZON.CancelIntent",
@@ -32,9 +32,9 @@
                         }
                     ],
                     "samples": [
-                        "current traffic for RER {rerLine}",
-                        "current traffic for tram {tramLine}",
-                        "current traffic for metro {metroLine}"
+                        "l'état du trafic du tram {tramLine}",
+                        "l'état du trafic du métro {metroLine}",
+                        "l'état du trafic de l'RER {rerLine}"
                     ]
                 }
             ],
