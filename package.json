@@ -6,6 +6,6 @@
   "scripts": {
     "package": "cd lambda/info-trafic-alexa-skill && zip -r info-trafic-alexa-skill-lambda.zip *"
   },
-  "author": "",
+  "author": "Ouadie LAHDIOUI",
   "license": "ISC"
 }
