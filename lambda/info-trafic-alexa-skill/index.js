@@ -2,7 +2,7 @@ const Alexa = require('alexa-sdk');
 const unirest = require('unirest');
 
 let welcomeOutput = `
-Bonjour et bienvenue dans l'application InfoTrafic. 
+Bienvenue dans l'application InfoTrafic. 
 Voulez-vous connaître les perturbations en cours et à venir en temps réel ?
 Il suffit de me demander l'état du trafic !`;
 let reprompt = "Voulez-vous l'état du trafic de quelles lignes ?";
